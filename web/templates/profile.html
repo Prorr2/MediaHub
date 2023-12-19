@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+    {% block title%}MultiHub{% endblock%}
+    {% block content%}
+    <body class="flex flex-col w-screen h-screen">
+        <div class="p-10 bg-stone-200 rounded-sm self-center">
+            <form method="POST" class="flex flex-col gap-2 self-center" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="flex flex-col gap-2 items-center">{{Form}}</div>
+            <input type="submit" class="p-2 font-semibold cursor-pointer bg-teal-300 w-52 self-center" value="Entrar"/>
+            </form>
+        </div>
+    </body>
+    {% endblock%}
