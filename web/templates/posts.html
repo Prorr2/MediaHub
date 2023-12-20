@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+    {% block title%}Posts{% endblock%}
+    {% block content%}
+    <body class="flex flex-row w-screen h-screen justify-center">
+        {% include 'components/navbar.html'%}
+        <form method='POST'>
+            {% csrf_token %}
+            {{Form}}
+        </form>
+    </body>
+    {% endblock%}

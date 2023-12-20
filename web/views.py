@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm, PostForm
 from .models import Profile
 # Create your views here.
 def login(request : HttpRequest):
@@ -24,8 +24,28 @@ def home(request : HttpRequest):
     return render(request, "home.html", {"profile" : profile})
 def profile(request : HttpRequest):
      form = ProfileForm()
+     try:
+        profile = Profile.objects.get(user = request.user)
+     except Profile.DoesNotExist:
+          profile = None
      if request.method == 'POST':
+          try:
+              profile_exist = Profile.objects.get(user = request.user)
+          except Profile.DoesNotExist:
+              profile_exist = None
           form = ProfileForm(request.POST, request.FILES)
-          if form.is_valid():
-               form.save()
-     return render(request, "profile.html", {"Form" : form})
+          if profile_exist == None:
+            if form.is_valid():
+                form.save()
+          else:
+                    form.is_valid() #its does not matter if the form is invalid
+                    profile_exist.alias = form.cleaned_data.get("alias")
+                    profile_exist.description = form.cleaned_data.get("description")
+                    if not form.cleaned_data.get("icon") == None:
+                        profile_exist.icon = form.cleaned_data.get("icon")
+                    profile_exist.save()
+                    return redirect('web:profile')
+     return render(request, "profile.html", {"Form" : form, "profile" : profile})
+def posts(request):
+     form = PostForm()
+     return render(request, "posts.html", {"Form" : form})

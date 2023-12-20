@@ -1,0 +1,16 @@
+{% load static %}
+<div class="flex flex-col gap-10 border-r-2 w-1/6 h-full p-10 absolute left-0">
+    <h2 class="text-4xl font-sans font-extralight">MultiHub</h2>
+    <div class="flex flex-row gap-2 items-center">
+        {% if profile.icon %}
+        <img src={{profile.icon.url}} class="w-16 rounded-full">
+        {% else %}
+        <img src={% static 'defect.jpeg'%} class="w-16 rounded-full">
+        {% endif%}
+        <a href="/profile"><p class="text-xl">Perfil</p></a>
+    </div>
+    <div class="flex flex-row gap-2 items-center">
+        {% include 'svgs/explore.html' %}
+        <a href="/posts"><p class="text-xl">Posts</p></a>
+    </div>
+</div>

@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 class ProfileConfig(admin.ModelAdmin):
     fieldsets = [
         ("User ligado", {"fields" : ["user", "icon"]}),
+        ("Alias", {"fields" : ["alias"]}),
         ("Descripción", {"fields" : ["description"]})
     ]
 admin.site.register(Profile, ProfileConfig)

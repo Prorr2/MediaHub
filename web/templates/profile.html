@@ -2,13 +2,31 @@
 {% load static %}
     {% block title%}MultiHub{% endblock%}
     {% block content%}
-    <body class="flex flex-col w-screen h-screen">
+    <body class="flex flex-row w-screen h-screen justify-center">
+        {% include 'components/navbar.html'%}
         <div class="p-10 bg-stone-200 rounded-sm self-center">
             <form method="POST" class="flex flex-col gap-2 self-center" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="flex flex-col gap-2 items-center">{{Form}}</div>
-            <input type="submit" class="p-2 font-semibold cursor-pointer bg-teal-300 w-52 self-center" value="Entrar"/>
+                <div class="flex flex-col gap-2 items-center">
+                    <div class="flex flex-row gap-2">
+                        {% if profile.icon %}
+                        <label for="id_icon"><img class="w-20 cursor-pointer rounded-full" src={{profile.icon.url}}/></label>
+                        {% else %}
+                        <label for="id_icon"><img class="w-20 cursor-pointer rounded-full" src={% static 'defect.jpeg' %}/></label>
+                        {% endif %}
+                        {{Form.icon}}
+                        {{Form.alias}}
+                    </div>
+                    {{Form.description}}
+                </div>
+            <input type="submit" class="p-2 font-medium cursor-pointer bg-teal-300 w-52 self-center" value="Actualizar"/>
             </form>
         </div>
     </body>
     {% endblock%}
+{% block script %}
+<script>
+    document.getElementById("id_description").value = "{{profile.description}}"
+    document.getElementById("id_alias").value = "{{profile.alias}}"
+</script>
+{% endblock %}
