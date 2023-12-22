@@ -33,7 +33,7 @@ class CommentForm(forms.ModelForm):
         fields = ["content"]
 
 class MessageForm(forms.ModelForm):
-    content = forms.CharField(label="", max_length=2000, widget=forms.Textarea(attrs={"placeholder" : "Mensaje", "class" : "p-5 w-72", "style" : "height: 70px; margin-top: 50px"}))
+    content = forms.CharField(label="", max_length=2000, widget=forms.Textarea(attrs={"placeholder" : "Mensaje", "class" : "p-5 w-[70rem] rounded-full", "style" : "height: 50px; margin-top: 50px"}))
     class Meta:
         model = Message
         fields = ["content"]

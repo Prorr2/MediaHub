@@ -4,21 +4,37 @@
     {% block content%}
     <body class="flex flex-row w-screen h-screen">
         {% include 'components/navbar.html'%}
-        <div class="flex flex-col gap-5 ml-[23rem] p-10">
-            {% for messsage in Messages %}
-            <div class="flex flex-row gap-2">
-                <p class="font-bold">{{messsage.profile_from.user.username}}:</p>
-                <p>{{messsage.content}}</p>
-            </div>
+        <div class="flex flex-col gap-5 ml-[23rem] p-10 w-full overflow-scroll">
+            {% for message in Messages %}
+            {% if message.profile_from.user.username == profile_to%}
+                <div class="flex flex-row gap-3">
+                    {% if message.profile_from.icon %}
+                    <img src={{message.profile_from.icon.url}} class="w-16 rounded-full">
+                    {% else %}
+                    <img src={% static 'defect.jpeg'%} class="w-16 rounded-full">
+                    {% endif%}
+                    <div class="flex flex-col gap-2"> <p class="text-sm mr-auto">{{message.datetime}}</p><p class="self-center max-w-sm bg-emerald-100 p-3 rounded-full">{{message.content}}</p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="flex flex-row gap-3 ml-auto">
+                   <div class="flex flex-col gap-2"> <p class="text-sm ml-auto">{{message.datetime}}</p><p class="self-center max-w-sm bg-emerald-200 p-3 pl-5 rounded-full">{{message.content}}</p>
+                    </div>
+                    {% if message.profile_from.icon %}
+                    <img src={{message.profile_from.icon.url}} class="w-16 rounded-full">
+                    {% else %}
+                    <img src={% static 'defect.jpeg'%} class="w-16 rounded-full">
+                    {% endif%}
+                </div>
+                {% endif %}
             {% endfor %}
+            <form class="mt-auto mb-10 flex flex-row gap-10 w-full" method="POST" action="/send-message">
+                {% csrf_token %}
+                {{Form}}
+                <input name="profile_to" value={{profile_to}} hidden>
+            <div class="flex flex-col justify-end">{% include 'components/submitButton.html' with value="Enviar" %}</div>
+                
+            </form>
     </div>
-    <form class="mt-auto mb-10 flex flex-row gap-10" method="POST" action="/send-message">
-        {% csrf_token %}
-        {{Form}}
-        <input name="profile_to" value={{profile_to}} hidden>
-    {% include 'components/submitButton.html' with value="Enviar" %}
-        
-    </form>
     </body>
     {% endblock%}
-

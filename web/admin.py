@@ -7,10 +7,21 @@ class CommentInline(admin.StackedInline):
     model = Comment
     can_delete = False
     verbose_name_plural = 'Comments'
+class MessageInline(admin.StackedInline):
+    model = Message
+    can_delete = False
+    verbose_name_plural = 'Messages'
+    fk_name = 'profile_from'
 class PostInline(admin.StackedInline):
     model = UserPost
     can_delete = False
     verbose_name_plural = 'Posts'
+class MessageConfig(admin.ModelAdmin):
+    fieldsets = [
+        ("Del Perfil", {"fields" : ["profile_from"]}),
+        ("Destinatario", {"fields" : ["profile_to"]}),
+        ("Content", {"fields" : ["content"]}),
+    ]
 class CommentConfig(admin.ModelAdmin):
     fieldsets = [
         ("Del Perfil", {"fields" : ["profile"]}),
@@ -23,7 +34,7 @@ class ProfileConfig(admin.ModelAdmin):
         ("Alias", {"fields" : ["alias"]}),
         ("Descripción", {"fields" : ["description"]})
     ]
-    inlines = (PostInline, )
+    inlines = (PostInline, MessageInline)
 class UserPostConfig(admin.ModelAdmin):
     fieldsets = [
         ("User Profile", {"fields" : ["profile"]}),
@@ -42,4 +53,4 @@ admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(UserPost, UserPostConfig)
 admin.site.register(Comment, CommentConfig)
-admin.site.register(Message)
+admin.site.register(Message, MessageConfig)

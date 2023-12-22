@@ -9,6 +9,7 @@ from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
+from datetime import datetime
 # Create your views here.
 def login(request : HttpRequest):
     form = UserForm()
@@ -115,4 +116,6 @@ def sendMessage(request):
                (profile_to, _) = Profile.objects.get_or_create(user = User.objects.get(username = request.POST.get("profile_to")))
                print(id)
                Message.objects.create(content = form.cleaned_data.get("content"), profile_from = profile_from, profile_to = profile_to)
-     return redirect('web:dm/' + request.POST.get("profile_to"))
+          else:
+               print(form.errors)
+     return redirect('web:dm', username = request.POST.get("profile_to"))
