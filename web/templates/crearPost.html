@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+    {% block title%}Crear Post{% endblock%}
+    {% block content%}
+    <body class="flex flex-row justify-center">
+        {% include 'components/navbar.html'%}
+        <form method='POST' enctype="multipart/form-data" class="flex flex-col gap-2 bg-stone-300 p-5 mt-20">
+            {% csrf_token %}
+            {{Form}}
+            {% include 'components/submitButton.html' with value="Crear" %}
+        </form>
+    </body>
+    {% endblock%}

@@ -7,6 +7,16 @@ class Profile(models.Model):
     icon = models.ImageField(upload_to="icons")
     description = models.TextField(max_length = 2000)
 class UserPost(models.Model):
-    profile = models.OneToOneField(Profile, on_delete = models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete = models.CASCADE)
     media = models.FileField(upload_to="posts")
     description = models.CharField(max_length = 1000)
+class Comment(models.Model):
+    profile = models.ForeignKey(Profile, on_delete = models.CASCADE)
+    post = models.ForeignKey(UserPost, on_delete = models.CASCADE)
+    content = models.CharField(max_length = 2000)
+    id = models.AutoField(primary_key=True) 
+class Message(models.Model):
+    profile_from = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name = "profile_from")
+    profile_to = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name = "profile_to")
+    content = models.CharField(max_length = 2000)
+

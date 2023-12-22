@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile, UserPost
+from .models import Profile, UserPost, Comment, Message
 inputclass = "p-2 rounded-sm"
 textareaclass = "p-2 rounded-sm"
 class iconCustomWidget(forms.ClearableFileInput):
@@ -8,7 +8,6 @@ class aliasCustomWidget(forms.TextInput):
     template_name = "custom_widgets/aliasInput.html"
 class mediaCustomWidget(forms.ClearableFileInput):
     template_name = "custom_widgets/mediaInput.html"   
-
 
 class UserForm(forms.Form):
     username = forms.CharField(label="", max_length=50, widget=forms.TextInput(attrs={"class" : inputclass, "placeholder" : "Usuario"}))
@@ -26,3 +25,15 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = UserPost
         fields = ["media", "description"]
+
+class CommentForm(forms.ModelForm):
+    content = forms.CharField(label="", max_length=2000, widget=forms.Textarea(attrs={"placeholder" : "Comentario", "class" : "p-5 w-72", "style" : "height: 120px; margin-top: 50px"}))
+    class Meta:
+        model = Comment
+        fields = ["content"]
+
+class MessageForm(forms.ModelForm):
+    content = forms.CharField(label="", max_length=2000, widget=forms.Textarea(attrs={"placeholder" : "Mensaje", "class" : "p-5 w-72", "style" : "height: 70px; margin-top: 50px"}))
+    class Meta:
+        model = Message
+        fields = ["content"]

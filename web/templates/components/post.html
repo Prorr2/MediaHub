@@ -1,0 +1,33 @@
+{% load static %}
+<div class="flex flex-col gap-2 bg-stone-300 p-5 w-80">
+    <div class="flex flex-row items-center gap-5 overflow-scroll">
+        {% if Post.profile.icon %}
+        <img src={{Post.profile.icon.url}} class="w-16 rounded-full">
+        {% else %}
+        <img src={% static 'defect.jpeg'%} class="w-16 rounded-full">
+        {% endif%}
+    <p class="font-semibold text-lg">{{Post.profile.user.username}}</p>
+    </div>
+    {% if '.png' in Post.media.url|lower or '.jpeg' in Post.media.url|lower or '.jpg' in Post.media.url|lower %}
+    <img src={{Post.media.url}} class="w-60 h-60 rounded-sm self-center"/>
+    {% else %}
+    <video width="300" height="300" controls>
+        <source src={{Post.media.url}}/>
+    </video>
+    {% endif %}
+    <div class="flex flex-row gap-1 ml-6"><p class="font-bold">{{Post.profile.user.username}}</p><p class="w-72">{{Post.description}}</p></div>
+    <form method="POST" action="send-comment" class="flex flex-col items-center gap-2">
+        {% csrf_token %}
+        {{CommentForm}}
+        <input type="text" name="id" value={{Post.id}} hidden>
+    {% include 'components/submitButton.html' with value="Enviar" %}
+    <div class="max-h-80">
+    {% for comment in Post.comment_set.all %}
+    <div class="flex flex-row gap-2">
+        <p class="font-bold">{{comment.profile.user.username}}</p>
+        <p>{{comment.content}}</p>
+    </div>
+    {% endfor %}
+    </div> 
+    </form>
+</div>

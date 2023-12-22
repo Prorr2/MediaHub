@@ -85,7 +85,8 @@ DATABASES = {
     }
 }
 
-
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_COOKIE_SECURE = False 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -126,8 +127,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 INTERNAL_IPS = [
     "127.0.0.1",
+    "0.0.0.0",
+    "172.24.144.57"
 ]
-
+ALLOWED_HOSTS = [
+    "172.24.144.57"
+]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TAILWIND_APP_NAME = 'theme'
 MEDIA_URL = "/media/"
